@@ -1,24 +1,36 @@
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
-import { BusinessPermitForm } from '@/components/business-permit-form';
+  SidebarProvider,
+  Sidebar,
+  SidebarHeader,
+  SidebarContent,
+  SidebarTrigger,
+  SidebarInset,
+} from '@/components/ui/sidebar';
+import { UserNav } from '@/components/user-nav';
+import { AppLogo } from '@/components/app-logo';
+import { MainNav } from '@/components/main-nav';
 
-export default function BusinessPermitPage() {
+export default function AppLayout({ children }) {
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Business Permit Application</CardTitle>
-        <CardDescription>
-          Fill out the form below to apply for a business permit.
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <BusinessPermitForm />
-      </CardContent>
-    </Card>
+    <SidebarProvider>
+      <Sidebar>
+        <SidebarHeader>
+          <AppLogo />
+        </SidebarHeader>
+        <SidebarContent>
+          <MainNav />
+        </SidebarContent>
+      </Sidebar>
+      <SidebarInset>
+        <header className="flex h-14 items-center gap-4 border-b bg-card px-4 lg:h-[60px] lg:px-6">
+          <SidebarTrigger className="md:hidden" />
+          <div className="flex-1">
+            {/* Can add breadcrumbs or page title here */}
+          </div>
+          <UserNav />
+        </header>
+        <main className="flex-1 p-4 lg:p-6">{children}</main>
+      </SidebarInset>
+    </SidebarProvider>
   );
 }

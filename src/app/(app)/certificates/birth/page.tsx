@@ -1,24 +1,7 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
-import { BirthCertificateForm } from '@/components/birth-certificate-form';
+import {genkit} from 'genkit';
+import {googleAI} from '@genkit-ai/googleai';
 
-export default function BirthCertificatePage() {
-  return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Birth Certificate Application</CardTitle>
-        <CardDescription>
-          Fill out the form to request a copy of a birth certificate.
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <BirthCertificateForm />
-      </CardContent>
-    </Card>
-  );
-}
+export const ai = genkit({
+  plugins: [googleAI()],
+  model: 'googleai/gemini-2.5-flash',
+});

@@ -5,19 +5,19 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { EventPermitForm } from '@/components/event-permit-form';
+import { ConstructionPermitForm } from '@/components/construction-permit-form';
 
-export default function EventPermitPage() {
+export default function ConstructionPermitPage() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Event Permit Application</CardTitle>
+        <CardTitle>Construction Permit Application</CardTitle>
         <CardDescription>
-          Fill out the form below to apply for an event permit.
+          Fill out the form below to apply for a construction permit.
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <EventPermitForm />
+        <ConstructionPermitForm />
       </CardContent>
     </Card>
   );

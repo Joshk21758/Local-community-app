@@ -1,56 +1,35 @@
 'use client';
 
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import {
-  LayoutDashboard,
-  FileCheck2,
-  Settings,
-} from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { useToast } from '@/hooks/use-toast';
+import { Check, X } from 'lucide-react';
 
-import {
-  SidebarMenu,
-  SidebarMenuItem,
-  SidebarMenuButton,
-} from '@/components/ui/sidebar';
+export function AdminActions({ permitId }) {
+  const { toast } = useToast();
 
-export function AdminNav() {
-  const pathname = usePathname();
+  const handleApprove = () => {
+    toast({
+      title: 'Permit Approved',
+      description: `Permit #${permitId.toUpperCase()} has been approved.`,
+    });
+  };
 
-  const menuItems = [
-    {
-      href: '/admin/dashboard',
-      label: 'Dashboard',
-      icon: LayoutDashboard,
-    },
-    {
-      href: '/admin/permits',
-      label: 'All Permits',
-      icon: FileCheck2,
-    },
-    {
-      href: '/admin/settings',
-      label: 'Settings',
-      icon: Settings,
-    },
-  ];
+  const handleReject = () => {
+    toast({
+      variant: 'destructive',
+      title: 'Permit Rejected',
+      description: `Permit #${permitId.toUpperCase()} has been rejected.`,
+    });
+  };
 
   return (
-    <SidebarMenu>
-      {menuItems.map((item) => (
-        <SidebarMenuItem key={item.href}>
-          <SidebarMenuButton
-            asChild
-            isActive={pathname === item.href || (item.href !== '/admin/dashboard' && pathname.startsWith(item.href))}
-            tooltip={item.label}
-          >
-            <Link href={item.href}>
-              <item.icon />
-              <span>{item.label}</span>
-            </Link>
-          </SidebarMenuButton>
-        </SidebarMenuItem>
-      ))}
-    </SidebarMenu>
+    <div className="flex gap-2">
+      <Button onClick={handleApprove} className="bg-accent text-accent-foreground hover:bg-accent/90">
+        <Check className="mr-2 h-4 w-4" /> Approve
+      </Button>
+      <Button variant="destructive" onClick={handleReject}>
+        <X className="mr-2 h-4 w-4" /> Reject
+      </Button>
+    </div>
   );
 }

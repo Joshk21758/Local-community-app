@@ -1,4 +1,3 @@
-import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
@@ -6,39 +5,20 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { FileText, Download } from 'lucide-react';
-import { certificates } from '@/lib/data';
+import { MarriageCertificateForm } from '@/components/marriage-certificate-form';
 
-export default function CertificatesPage() {
+export default function MarriageCertificatePage() {
   return (
-    <div className="space-y-4">
-      <div>
-        <h1 className="text-2xl font-bold font-headline">Certificates</h1>
-        <p className="text-muted-foreground">
-          View and download available community certificates.
-        </p>
-      </div>
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {certificates.map((cert) => (
-          <Card key={cert.id}>
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-lg font-semibold">
-                {cert.title}
-              </CardTitle>
-              <FileText className="h-5 w-5 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <CardDescription className="mb-4">{cert.description}</CardDescription>
-              <Button size="sm" variant="outline" asChild>
-                <a href={cert.fileUrl} download>
-                  <Download className="mr-2 h-4 w-4" />
-                  Download
-                </a>
-              </Button>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-    </div>
+    <Card>
+      <CardHeader>
+        <CardTitle>Marriage Certificate Application</CardTitle>
+        <CardDescription>
+          Fill out the form to request a copy of a marriage certificate.
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <MarriageCertificateForm />
+      </CardContent>
+    </Card>
   );
 }

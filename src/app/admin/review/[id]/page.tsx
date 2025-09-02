@@ -1,76 +1,48 @@
-import { notFound } from 'next/navigation';
-import { getPermitById } from '@/lib/data';
-import { adminPermitReviewSummary } from '@/ai/flows/admin-permit-review-summary';
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Separator } from '@/components/ui/separator';
-import { Bot, User } from 'lucide-react';
-import { AdminActions } from '@/components/admin-actions';
-import { Badge } from '@/components/ui/badge';
+  SidebarProvider,
+  Sidebar,
+  SidebarHeader,
+  SidebarContent,
+  SidebarTrigger,
+  SidebarInset,
+  SidebarFooter
+} from '@/components/ui/sidebar';
+import { UserNav } from '@/components/user-nav';
+import { AppLogo } from '@/components/app-logo';
+import { AdminNav } from '@/components/admin-nav';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
+import { ArrowLeftCircle } from 'lucide-react';
 
-export default async function AdminReviewPage({
-  params,
-}: {
-  params: { id: string };
-}) {
-  const permit = getPermitById(params.id);
-
-  if (!permit) {
-    notFound();
-  }
-  
-  // In a real app, user info would be fetched from a database.
-  const userInfo = `User: ${permit.applicantName}`;
-
-  const summaryResult = await adminPermitReviewSummary({
-    applicationDetails: permit.details,
-    userInformation: userInfo,
-  });
-
+export default function AdminLayout({ children }) {
   return (
-    <div className="grid gap-6">
-      <Card>
-        <CardHeader>
-          <div className="flex items-center justify-between">
-            <div>
-              <CardTitle>Review Permit: {permit.id.toUpperCase()}</CardTitle>
-              <CardDescription>
-                Submitted by {permit.applicantName} on {permit.dateSubmitted}
-              </CardDescription>
-            </div>
-             <Badge variant="secondary">{permit.type} Permit</Badge>
+    <SidebarProvider>
+      <Sidebar>
+        <SidebarHeader>
+          <AppLogo />
+        </SidebarHeader>
+        <SidebarContent>
+          <AdminNav />
+        </SidebarContent>
+        <SidebarFooter>
+          <Button variant="ghost" className="w-full justify-start gap-2" asChild>
+            <Link href="/dashboard">
+              <ArrowLeftCircle /> 
+              <span>Exit Admin</span>
+            </Link>
+          </Button>
+        </SidebarFooter>
+      </Sidebar>
+      <SidebarInset>
+        <header className="flex h-14 items-center gap-4 border-b bg-card px-4 lg:h-[60px] lg:px-6">
+          <SidebarTrigger className="md:hidden" />
+          <div className="flex-1">
+            <h1 className="text-lg font-semibold">Admin Panel</h1>
           </div>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            <div>
-              <h3 className="font-semibold">Application Details</h3>
-              <p className="text-muted-foreground">{permit.details}</p>
-            </div>
-            <Separator />
-            <div>
-              <h3 className="font-semibold">Relevant Policies Mentioned</h3>
-              <p className="text-muted-foreground">{permit.policyText}</p>
-            </div>
-          </div>
-        </CardContent>
-        <CardFooter>
-          <AdminActions permitId={permit.id} />
-        </CardFooter>
-      </Card>
-
-      <Alert>
-        <Bot className="h-4 w-4" />
-        <AlertTitle>AI-Generated Summary</AlertTitle>
-        <AlertDescription>{summaryResult.summary}</AlertDescription>
-      </Alert>
-    </div>
+          <UserNav />
+        </header>
+        <main className="flex-1 p-4 lg:p-6">{children}</main>
+      </SidebarInset>
+    </SidebarProvider>
   );
 }

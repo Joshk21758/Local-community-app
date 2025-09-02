@@ -4,54 +4,55 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { useToast } from '@/hooks/use-toast';
+import { format } from "date-fns"
+import { Calendar as CalendarIcon } from "lucide-react"
 
 import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import { Textarea } from './ui/textarea';
+import { Popover, PopoverTrigger, PopoverContent } from './ui/popover';
+import { Calendar } from './ui/calendar';
+import { cn } from '@/lib/utils';
+import { RadioGroup, RadioGroupItem } from './ui/radio-group';
+
 
 const formSchema = z.object({
-  businessName: z.string().min(2, 'Business name is required'),
-  businessType: z.string().min(2, 'Business type is required'),
-  address: z.string().min(5, 'Address is required'),
-  ownerName: z.string().min(2, "Owner's name is required"),
-  ownerContact: z.string().min(10, 'A valid contact number is required'),
-  businessDescription: z.string().optional(),
+  fullName: z.string().min(2, "Full name is required."),
+  dateOfBirth: z.date({
+    required_error: "Date of birth is required.",
+  }),
+  placeOfBirth: z.string().min(3, 'Place of birth is required'),
+  mothersName: z.string().min(2, "Mother's full name is required."),
+  fathersName: z.string().min(2, "Father's full name is required."),
+  requesterRelationship: z.enum(["self", "parent", "guardian"], {
+    required_error: "You must select your relationship to the person on the certificate.",
+  }),
 });
 
-export function BusinessPermitForm() {
+export function BirthCertificateForm() {
   const { toast } = useToast();
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      businessName: '',
-      businessType: '',
-      address: '',
-      ownerName: '',
-      ownerContact: '',
+      fullName: '',
+      placeOfBirth: '',
+      mothersName: '',
+      fathersName: '',
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  function onSubmit(values) {
     console.log(values);
     toast({
-      title: 'Application Submitted!',
-      description: 'Your business permit application has been sent for review.',
+      title: 'Request Submitted!',
+      description: 'Your birth certificate request has been received.',
     });
     form.reset();
   }
@@ -61,12 +62,94 @@ export function BusinessPermitForm() {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <FormField
           control={form.control}
-          name="businessName"
+          name="fullName"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Business Name</FormLabel>
+              <FormLabel>Full Name on Certificate</FormLabel>
               <FormControl>
-                <Input placeholder="e.g. Sparkle Cleaners" {...field} />
+                <Input placeholder="John Michael Doe" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <FormField
+                control={form.control}
+                name="dateOfBirth"
+                render={({ field }) => (
+                    <FormItem className="flex flex-col">
+                    <FormLabel>Date of Birth</FormLabel>
+                    <Popover>
+                        <PopoverTrigger asChild>
+                        <FormControl>
+                            <Button
+                            variant={"outline"}
+                            className={cn(
+                                "w-full pl-3 text-left font-normal",
+                                !field.value && "text-muted-foreground"
+                            )}
+                            >
+                            {field.value ? (
+                                format(field.value, "PPP")
+                            ) : (
+                                <span>Pick a date</span>
+                            )}
+                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                            </Button>
+                        </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                        <Calendar
+                            mode="single"
+                            selected={field.value}
+                            onSelect={field.onChange}
+                            disabled={(date) =>
+                            date > new Date() || date < new Date("1900-01-01")
+                            }
+                            initialFocus
+                        />
+                        </PopoverContent>
+                    </Popover>
+                    <FormMessage />
+                    </FormItem>
+                )}
+            />
+             <FormField
+                control={form.control}
+                name="placeOfBirth"
+                render={({ field }) => (
+                    <FormItem>
+                    <FormLabel>City/Town of Birth</FormLabel>
+                    <FormControl>
+                        <Input placeholder="Anytown" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                    </FormItem>
+                )}
+                />
+        </div>
+         <FormField
+          control={form.control}
+          name="mothersName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Mother's Full Maiden Name</FormLabel>
+              <FormControl>
+                <Input placeholder="Jane Elizabeth Smith" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+         <FormField
+          control={form.control}
+          name="fathersName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Father's Full Name</FormLabel>
+              <FormControl>
+                <Input placeholder="Robert John Doe" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -74,83 +157,45 @@ export function BusinessPermitForm() {
         />
         <FormField
           control={form.control}
-          name="businessType"
+          name="requesterRelationship"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel>Business Type</FormLabel>
-               <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a business type" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  <SelectItem value="retail">Retail</SelectItem>
-                  <SelectItem value="food">Food & Beverage</SelectItem>
-                  <SelectItem value="service">Service</SelectItem>
-                  <SelectItem value="other">Other</SelectItem>
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="address"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Business Address</FormLabel>
+            <FormItem className="space-y-3">
+              <FormLabel>Your relationship to this person...</FormLabel>
               <FormControl>
-                <Input placeholder="123 Business Rd, Commerce City" {...field} />
+                <RadioGroup
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                  className="flex flex-col space-y-1"
+                >
+                  <FormItem className="flex items-center space-x-3 space-y-0">
+                    <FormControl>
+                      <RadioGroupItem value="self" />
+                    </FormControl>
+                    <FormLabel className="font-normal">
+                      I am requesting my own certificate.
+                    </FormLabel>
+                  </FormItem>
+                  <FormItem className="flex items-center space-x-3 space-y-0">
+                    <FormControl>
+                      <RadioGroupItem value="parent" />
+                    </FormControl>
+                    <FormLabel className="font-normal">
+                      I am the person's parent.
+                    </FormLabel>
+                  </FormItem>
+                  <FormItem className="flex items-center space-x-3 space-y-0">
+                    <FormControl>
+                      <RadioGroupItem value="guardian" />
+                    </FormControl>
+                    <FormLabel className="font-normal">I am the person's legal guardian.</FormLabel>
+                  </FormItem>
+                </RadioGroup>
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-         <FormField
-          control={form.control}
-          name="ownerName"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Owner's Full Name</FormLabel>
-              <FormControl>
-                <Input placeholder="John Smith" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-         <FormField
-          control={form.control}
-          name="ownerContact"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Owner's Contact Number</FormLabel>
-              <FormControl>
-                <Input placeholder="555-123-4567" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-         <FormField
-          control={form.control}
-          name="businessDescription"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Business Description</FormLabel>
-              <FormControl>
-                <Textarea placeholder="Describe your business activities." {...field} />
-              </FormControl>
-               <FormDescription>
-                 Provide a brief overview of your business operations.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit">Submit Application</Button>
+        <Button type="submit">Submit Request</Button>
       </form>
     </Form>
   );

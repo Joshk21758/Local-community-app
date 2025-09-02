@@ -5,19 +5,19 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { MarriageCertificateForm } from '@/components/marriage-certificate-form';
+import { BirthCertificateForm } from '@/components/birth-certificate-form';
 
-export default function MarriageCertificatePage() {
+export default function BirthCertificatePage() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Marriage Certificate Application</CardTitle>
+        <CardTitle>Birth Certificate Application</CardTitle>
         <CardDescription>
-          Fill out the form to request a copy of a marriage certificate.
+          Fill out the form to request a copy of a birth certificate.
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <MarriageCertificateForm />
+        <BirthCertificateForm />
       </CardContent>
     </Card>
   );

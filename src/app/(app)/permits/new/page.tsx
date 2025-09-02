@@ -5,19 +5,19 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { PermitForm } from '@/components/permit-form';
+import { EventPermitForm } from '@/components/event-permit-form';
 
-export default function NewPermitPage() {
+export default function EventPermitPage() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>New Permit Application</CardTitle>
+        <CardTitle>Event Permit Application</CardTitle>
         <CardDescription>
-          Fill out the form below to submit a new permit application.
+          Fill out the form below to apply for an event permit.
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <PermitForm />
+        <EventPermitForm />
       </CardContent>
     </Card>
   );
