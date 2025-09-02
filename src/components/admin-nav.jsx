@@ -5,7 +5,6 @@ import { usePathname } from 'next/navigation';
 import {
   LayoutDashboard,
   FileCheck2,
-  Settings,
 } from 'lucide-react';
 
 import {
@@ -27,11 +26,6 @@ export function AdminNav() {
       href: '/admin/permits',
       label: 'All Permits',
       icon: FileCheck2,
-    },
-    {
-      href: '/admin/settings',
-      label: 'Settings',
-      icon: Settings,
     },
   ];
 
