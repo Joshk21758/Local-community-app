@@ -1,10 +1,20 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { FileText } from 'lucide-react';
+import Image from 'next/image';
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-background p-8">
+    <main className="relative flex min-h-screen flex-col items-center justify-center p-8">
+      <Image
+        src="https://picsum.photos/1920/1080"
+        alt="Background"
+        fill
+        className="object-cover -z-10"
+        data-ai-hint="cityscape background"
+      />
+      <div className="absolute inset-0 bg-background/60 -z-10" />
+
       <div className="flex flex-col items-center justify-center text-center">
         <div className="mb-6 rounded-full bg-primary/10 p-4 text-primary">
           <FileText className="h-12 w-12" />
