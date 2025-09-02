@@ -1,4 +1,5 @@
 import Link from 'next/link';
+
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -11,40 +12,50 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { AppLogo } from '@/components/app-logo';
 
-export default function AdminLoginPage() {
+export default function AdminSignupPage() {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center p-4">
       <Card className="mx-auto max-w-sm">
         <CardHeader>
           <AppLogo className="mb-4" />
-          <CardTitle className="text-2xl">Admin Login</CardTitle>
+          <CardTitle className="text-xl">Admin Sign Up</CardTitle>
           <CardDescription>
-            Enter your credentials to access the admin panel.
+            Enter your information to create an admin account
           </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid gap-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div className="grid gap-2">
+                <Label htmlFor="first-name">First name</Label>
+                <Input id="first-name" placeholder="Max" required />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="last-name">Last name</Label>
+                <Input id="last-name" placeholder="Robinson" required />
+              </div>
+            </div>
             <div className="grid gap-2">
               <Label htmlFor="email">Email</Label>
               <Input
                 id="email"
                 type="email"
-                placeholder="admin@example.com"
+                placeholder="m@example.com"
                 required
               />
             </div>
             <div className="grid gap-2">
               <Label htmlFor="password">Password</Label>
-              <Input id="password" type="password" required />
+              <Input id="password" type="password" />
             </div>
             <Button type="submit" className="w-full" asChild>
-              <Link href="/admin/dashboard">Login</Link>
+              <Link href="/admin/dashboard">Create admin account</Link>
             </Button>
           </div>
           <div className="mt-4 text-center text-sm">
-            Don&apos;t have an admin account?{' '}
-            <Link href="/admin/signup" className="underline">
-              Sign up
+            Already have an account?{' '}
+            <Link href="/admin" className="underline">
+              Login
             </Link>
           </div>
         </CardContent>
