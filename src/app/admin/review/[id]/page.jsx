@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/card';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Separator } from '@/components/ui/separator';
-import { Bot, User } from 'lucide-react';
+import { Bot } from 'lucide-react';
 import { AdminActions } from '@/components/admin-actions';
 import { Badge } from '@/components/ui/badge';
 

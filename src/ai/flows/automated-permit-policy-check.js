@@ -47,10 +47,10 @@ const prompt = ai.definePrompt({
   prompt: `You are an AI assistant that analyzes permit applications against existing policies to determine the likelihood of success.
 
   Analyze the following permit application text:
-  {{applicationText}}
+  {{{applicationText}}}
 
   Against the following relevant policies:
-  {{relevantPolicies}}
+  {{{relevantPolicies}}}
 
   Determine the likelihood of the application being successful, and provide reasoning for your determination.
   Include the likelihood of success as a percentage.
