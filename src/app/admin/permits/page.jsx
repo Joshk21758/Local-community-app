@@ -17,8 +17,7 @@ import { Badge } from '@/components/ui/badge';
 import { permits } from '@/lib/data';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import Link from 'next/link';
-import { ArrowUpRight } from 'lucide-react';
+import { Check, X } from 'lucide-react';
 
 const statusStyles = {
   Approved: 'bg-accent/20 text-accent-foreground border-accent/20',
@@ -47,9 +46,7 @@ export default function AllPermitsPage() {
               <TableHead>Type</TableHead>
               <TableHead>Status</TableHead>
               <TableHead>Date Submitted</TableHead>
-              <TableHead>
-                <span className="sr-only">Actions</span>
-              </TableHead>
+              <TableHead>Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -69,12 +66,14 @@ export default function AllPermitsPage() {
                 </TableCell>
                 <TableCell>{permit.dateSubmitted}</TableCell>
                 <TableCell>
-                  <Button asChild size="sm" className="gap-1">
-                    <Link href={`/admin/review/${permit.id}`}>
-                      Review
-                      <ArrowUpRight className="h-4 w-4" />
-                    </Link>
-                  </Button>
+                  <div className="flex gap-2">
+                    <Button size="sm" className="bg-accent text-accent-foreground hover:bg-accent/90">
+                      <Check className="mr-2 h-4 w-4" /> Approve
+                    </Button>
+                    <Button size="sm" variant="destructive">
+                      <X className="mr-2 h-4 w-4" /> Reject
+                    </Button>
+                  </div>
                 </TableCell>
               </TableRow>
             ))}
