@@ -3,7 +3,7 @@ import { cn } from '@/lib/utils';
 import { Toaster } from "@/components/ui/toaster"
 
 export const metadata = {
-  title: 'Civitas Hub',
+  title: 'Libala Connect',
   description: 'Your one-stop portal for community services.',
 };
 

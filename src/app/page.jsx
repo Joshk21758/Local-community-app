@@ -10,7 +10,7 @@ export default function Home() {
           <FileText className="h-12 w-12" />
         </div>
         <h1 className="font-headline text-5xl font-bold tracking-tight text-foreground md:text-6xl">
-          Welcome to Civitas Hub
+          Welcome to Libala Connect
         </h1>
         <p className="mt-4 max-w-2xl text-lg text-muted-foreground">
           Your one-stop portal for community services. Access permits, certificates, and manage waste services with ease.
@@ -25,7 +25,7 @@ export default function Home() {
         </div>
       </div>
       <footer className="absolute bottom-4 text-sm text-muted-foreground">
-        © {new Date().getFullYear()} Civitas Hub. All rights reserved.
+        © {new Date().getFullYear()} Libala Connect. All rights reserved.
       </footer>
     </main>
   );
